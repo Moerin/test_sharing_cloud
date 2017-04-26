@@ -19,6 +19,7 @@ from django.contrib import admin
 
 
 urlpatterns = [
+    url('', include('microblog.urls', namespace='microblog')),
     url(r'^admin/', admin.site.urls),
     url('', include('social_django.urls', namespace='social'))
 ]
