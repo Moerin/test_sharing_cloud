@@ -1,9 +1,15 @@
-# https://travis-ci.org/tornadoweb/tornado
 language: python
 python:
-    - 2.7
+- 2.7
 cache: pip
 install:
-  - pip install -r requirements.txt
-script: 
-    - python manage.py test
+- pip install -r requirements.txt
+script:
+- python manage.py test
+after_success:
+  - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
+  - "chmod a+x /tmp/travis-automerge"
+  - "BRANCHES_TO_MERGE_REGEX='dev' BRANCH_TO_MERGE_INTO=master GITHUB_REPO=Moerin/test_sharing_cloud /tmp/travis-automerge"
+env:
+  global:
+    secure: G+igr6WOyu7wmAduWJA6et9Ghk0plNVYtDw4FnK3GeTydrQ21OaACryzzAii/AX5hkU7eJfoNmRm5ENHCUh9APWiwbw6rAaP9L8fkuG8I5uowIbd7l1eQ3lkTRji9HwC60igL8im2z7iSBbkzArKVfPbf3FqiswQAC+IQ+2DQrbMl2ASQoHhRJol9VBOPnDdk+HYvLNnqjDM2gu7LS5JvR4Xx+IzLazgzOPpvRuODjbFmkQkviCnl9qhDhyAacUKWJEeGtkD93mgLVuEi5Bq3vU1fOpZc7KxPU/LFO7NrU15Af0sNTUvcIcvo8gfMGjyKfKVA1Job/dmJorRBE79yn+y59U6MIwg7uDfZ2g3sHtsUJew3HOMHwnKqk0GhKj/lEj+9ZIXlQFyPNW9mLmbSPwCN87Uep6+DYq0z7uXFThrz200nH5e1yGswlmGoXGK/N+ZbzkBVLMtwdinHsWFvDmUiBn4UI2JY5oodNWoK7TW9CwbreVHv+sftGFSgXsnVSrQuZaI/iyw+LOw5C9l+LBpEQ99PnxzqEvVerYCnZJlZtxsX57kS5rn4iDMqMNNnt8zTd5r8EhrbCxcD8V4Ry6I55oa5n9B2HNVtTqGJbQcAOCQWqz/TCb45/XmXPQcCbky2uxbNm7/P6KlkE4P5OVhz8Q2UWXLuZnHAeJMsXM=
