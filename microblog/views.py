@@ -1,7 +1,7 @@
 from django.views.generic import ListView, DetailView
+from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Post
-
 
 
 class PublishedPostsMixin(object):
@@ -10,9 +10,9 @@ class PublishedPostsMixin(object):
         return self.model.objects.live()
 
 
-class PostListView(PublishedPostsMixin, ListView):
+class PostListView(LoginRequiredMixin, PublishedPostsMixin, ListView):
     model = Post
 
 
-class PostDetailView(PublishedPostsMixin, DetailView):
+class PostDetailView(LoginRequiredMixin, PublishedPostsMixin, DetailView):
     model = Post
