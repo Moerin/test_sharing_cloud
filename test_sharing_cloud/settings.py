@@ -23,7 +23,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 SECRET_KEY = '7tg%73qg7uh4q*drspael=7gl+m2k$up912u9#y2581kfc5!pk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['localhost',
                  'testing-sharing-cloud.herokuapp.com',
@@ -81,8 +81,7 @@ WSGI_APPLICATION = 'test_sharing_cloud.wsgi.application'
 
 DATABASES = {
     'default': {
-        'ENGINE': 'django.db.backends.sqlite3',
-        'NAME': os.path.join(BASE_DIR, 'db.sqlite3'),
+        'ENGINE': 'django.db.backends.postgresql',
     }
 }
 
