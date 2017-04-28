@@ -1,4 +1,4 @@
 .ropeproject
 *sqlite*
 *.pyc
-local.py
+tags*

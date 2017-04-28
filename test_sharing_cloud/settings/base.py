@@ -24,7 +24,6 @@ SECRET_KEY = '7tg%73qg7uh4q*drspael=7gl+m2k$up912u9#y2581kfc5!pk'
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
-
 ALLOWED_HOSTS = ['localhost',
                  'testing-sharing-cloud.herokuapp.com',
                  '127.0.0.1']

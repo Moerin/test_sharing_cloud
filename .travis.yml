@@ -5,7 +5,7 @@ cache: pip
 install:
 - pip install -r requirements.txt
 script:
-- python manage.py test
+- python manage.py test --settings=test_sharing_cloud.settings.dev
 after_success:
 - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge
 - chmod a+x /tmp/travis-automerge
