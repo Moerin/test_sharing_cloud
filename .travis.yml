@@ -7,9 +7,15 @@ install:
 script:
 - python manage.py test
 after_success:
-  - "curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge"
-  - "chmod a+x /tmp/travis-automerge"
-  - "BRANCHES_TO_MERGE_REGEX='dev' BRANCH_TO_MERGE_INTO=master GITHUB_REPO=Moerin/test_sharing_cloud /tmp/travis-automerge"
+- curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge
+- chmod a+x /tmp/travis-automerge
+- BRANCHES_TO_MERGE_REGEX='dev' BRANCH_TO_MERGE_INTO=master GITHUB_REPO=Moerin/test_sharing_cloud
+  /tmp/travis-automerge
 env:
   global:
     secure: G+igr6WOyu7wmAduWJA6et9Ghk0plNVYtDw4FnK3GeTydrQ21OaACryzzAii/AX5hkU7eJfoNmRm5ENHCUh9APWiwbw6rAaP9L8fkuG8I5uowIbd7l1eQ3lkTRji9HwC60igL8im2z7iSBbkzArKVfPbf3FqiswQAC+IQ+2DQrbMl2ASQoHhRJol9VBOPnDdk+HYvLNnqjDM2gu7LS5JvR4Xx+IzLazgzOPpvRuODjbFmkQkviCnl9qhDhyAacUKWJEeGtkD93mgLVuEi5Bq3vU1fOpZc7KxPU/LFO7NrU15Af0sNTUvcIcvo8gfMGjyKfKVA1Job/dmJorRBE79yn+y59U6MIwg7uDfZ2g3sHtsUJew3HOMHwnKqk0GhKj/lEj+9ZIXlQFyPNW9mLmbSPwCN87Uep6+DYq0z7uXFThrz200nH5e1yGswlmGoXGK/N+ZbzkBVLMtwdinHsWFvDmUiBn4UI2JY5oodNWoK7TW9CwbreVHv+sftGFSgXsnVSrQuZaI/iyw+LOw5C9l+LBpEQ99PnxzqEvVerYCnZJlZtxsX57kS5rn4iDMqMNNnt8zTd5r8EhrbCxcD8V4Ry6I55oa5n9B2HNVtTqGJbQcAOCQWqz/TCb45/XmXPQcCbky2uxbNm7/P6KlkE4P5OVhz8Q2UWXLuZnHAeJMsXM=
+deploy:
+    provider: heroku
+    api_key:
+        secure: W4EUqU+kGqjLStW+QJrPIq/HH9erTS15giLntsbJNVprz/KGoKSlWaLW3EPCvvb2Mk5hZ4OtnY+elFfJEpsmxhQdjSv3mNI5kZaQa29PcPPUmgmmFw5bPjSf66KB/vjUJNQL58ABj8KPfe2tuFzswVdc80oOjDqbhp86OAqA7LhkcwGJiAi9tRXpK52by3IiKhD/UGbTIavdtk5QWmwVxqHwpFNynfMKbgEo2KKXOfA7mFgT7+dZqZyiiuES3zQsUiyKs0wXJVD8ZyCE2m11evFFnAq3zlNIPBpThViioDB9b093H89UwYO7hMsHbCCvypJMEDnXrAoXRIwdHXbUP5KHgWYc4bNks/EmP1oUdNz1F0aRjn9C/bbfCpFRKAQeP+ZrjIgIl/TjNDA+aIH1bHcAlb4qJ0wc+QdtGpopY44ctaH+HivlOBTi2HVYFldsmN/3Ox7srSraiC/MyCFgZFttsLVa2QZ9dyAdl4xuXOi7SunaFD4HdQ9QDE49zwMYh8Sy0FmwTfGjesZgDIz1WiaRkfYjwi3s8SlVqS6tAqtGH34iV6OtS9rglJAkLAJAHJVWqtt8ZrCQuX8lQJf2cPTjdxEuk3pgvrV6nFO/1JjLJAGMndsIKFeYukKeHRpBmsx51oGBzP/BibuWm5Asj+SmjPFd7bJjOjt/uZ+i2Xs=
+    on: master
