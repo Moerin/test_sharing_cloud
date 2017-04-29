@@ -4,9 +4,18 @@
     <head>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
-        <title>{% block page_title %}{% endblock %}Microblog</title>
+        <title>{% block page_title %}Sharing Blog{% endblock %}</title>
     </head>
     <body>
+        <div class="page-header">
+            <h1><a href="/">Sharing Blog</a></h1>
+            {% if user and not user.is_anonymous %}
+            <a href="{% url 'microblog:new' %}" class="top-menu">
+                New Post
+                <span class="glyphicon glyphicon-plus"></span>
+            </a>
+            {% endif %}
+        </div>
         <div class="container">
             <p>
             <ul>

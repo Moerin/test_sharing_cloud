@@ -3,8 +3,9 @@
 {% block page_title %}{{ post.title }} | {% endblock %}
 
 {% block page_content %}
-<h2>{{ post.title }}</h2>
-{{ post.content|linebreaks }}
-<p>{{ post.updated_at }}</p>
-<p><a href="{% url 'microblog:list' %}">&larr; Blog list</a></p>
+    <h2>{{ post.title }}</h2>
+    {{ post.content|linebreaks }}
+    <p>{{ post.updated_at }}</p>
+    <a class="btn btn-default" href="{% url 'microblog:edit' pk=post.pk %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
+    <p><a href="{% url 'microblog:list' %}">&larr; Blog list</a></p>
 {% endblock %}
