@@ -6,6 +6,7 @@
     <h2>{{ post.title }}</h2>
     {{ post.content|linebreaks }}
     <p>{{ post.updated_at }}</p>
-    <a class="btn btn-default" href="{% url 'microblog:edit' pk=post.pk %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-default" href="{% url 'microblog:edit' slug=post.slug %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
+    <a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">Delete<span class="glyphicon glyphicon-pencil"></span></a>
     <p><a href="{% url 'microblog:list' %}">&larr; Blog list</a></p>
 {% endblock %}

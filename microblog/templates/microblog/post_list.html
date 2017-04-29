@@ -1,19 +1,23 @@
 {% extends "_layouts/base.html" %}
 
-{% block page_title %}Blog posts | {% endblock %}
+{% block page_title %}Sharing Blog{% endblock %}
 
 {% block page_content %}
-<h2>Blog Posts</h2>
+    <h2>Blog Posts</h2>
 
-<ul>
-    {% for post in post_list %}
-    <h3><a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a></h3>
-    <p>{{ post.content }}</p>
-    <h5>Add comment</h5>
-    <textarea></textarea>
-    <button type="submit">Post Comment</button>
-    {% empty %}
-    <li>Sorry, no posts yet. Check back soon!</li>
-    {% endfor %}
-</ul>
+    <ul>
+        {% for post in post_list %}
+        <h3><a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a></h3>
+        <p>{{ post.content }}</p>
+        {% empty %}
+        <li>Sorry, no posts yet. Check back soon!</li>
+        {% endfor %}
+    </ul>
+    <h2>New post</h2>
+    <form method="POST" class="post-form" id="post-form">
+        {% csrf_token %}
+        {{ form.as_p }}
+        <button type="submit" class="save btn btn-default">Save</button>
+    </form>
+
 {% endblock %}

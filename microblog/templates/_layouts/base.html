@@ -3,7 +3,6 @@
 <html>
     <head>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
-        <link rel="stylesheet" href="{% static 'css/bootstrap-responsive.css' %}">
         <title>{% block page_title %}Sharing Blog{% endblock %}</title>
     </head>
     <body>
@@ -34,7 +33,10 @@
             </ul>
             </p>
         </div>
-        {% block page_content %}{% endblock %}
+        {% block page_content %}
+        {% endblock %}
         </div>
+        <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="application/javascript" src="{% static '/js/main.js' %}"></script>
     </body>
 </html>
