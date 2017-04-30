@@ -4,39 +4,27 @@
     <head>
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <title>{% block page_title %}Sharing Blog{% endblock %}</title>
+        {% if user and not user.is_anonymous %}
+        <li>
+            <a>Hello {{ user.get_full_name|default:user.username }}!</a>
+        </li>
+        <li>
+            <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
+        </li>
+        {% else %}
+        <li>
+            <a href="{% url 'social:begin' 'google-oauth2' %}?next=/blog/">Login with Google</a>
+        </li>
+        {% endif %}
     </head>
     <body>
         <div class="page-header">
             <h1><a href="/">Sharing Blog</a></h1>
-            {% if user and not user.is_anonymous %}
-            <a href="{% url 'microblog:new' %}" class="top-menu">
-                New Post
-                <span class="glyphicon glyphicon-plus"></span>
-            </a>
-            {% endif %}
-        </div>
-        <div class="container">
-            <p>
-            <ul>
-                {% if user and not user.is_anonymous %}
-                <li>
-                    <a>Hello {{ user.get_full_name|default:user.username }}!</a>
-                </li>
-                <li>
-                    <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
-                </li>
-                {% else %}
-                <li>
-                    <a href="{% url 'social:begin' 'google-oauth2' %}?next=/blog/">Login with Google</a>
-                </li>
-                {% endif %}
-            </ul>
-            </p>
         </div>
         {% block page_content %}
         {% endblock %}
-        </div>
         <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
+        <script type="application/javascript" src="{% static 'tornado_websockets/tornadowebsocket-es6.js' %}"></script>
         <script type="application/javascript" src="{% static '/js/main.js' %}"></script>
     </body>
 </html>

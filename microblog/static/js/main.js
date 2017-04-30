@@ -1,9 +1,14 @@
 $(function() {
+    function capitalizeFirstLetter(string) {
+        return string.charAt(0).toUpperCase() + string.slice(1);
+    }
+
     // Submit post on submit
     $('#post-form').on('submit', function(event){
         event.preventDefault();
         console.log("form submitted!")  // sanity check
         create_post();
+        send_messages();
     });
 
     function create_post() {
@@ -19,6 +24,7 @@ $(function() {
             success : function(json) {
                 $('#post-content').val(''); // remove the value from the input
                 $('#post-title').val(''); // remove the value from the input
+                $("#talk").prepend('<h3><a href="blog/'+json.slug+'/">'+capitalizeFirstLetter(json.title)+'</a></h3><p>'+json.content+'</p><p>'+json.username+'</p>');
                 console.log(json); // log the returned json to the console
                 console.log("success"); // another sanity check
             },
@@ -83,4 +89,42 @@ $(function() {
             }
         }
     });
+
+    /* --- Eco new message --- */
+    var post = $('#post-form');
+    function send_messages() {
+
+        var options = {};
+        options.port = 1337;
+        var ws = new TornadoWebSocket('/messages', options);
+        ws.on('open', function (event) {
+            ws.emit('connection', {
+                username: 'TOTO'
+            });
+
+            ws.on('new_connection', function (data) {
+                write_message(data.message);
+            });
+
+            ws.on('new_message', function(data) {
+                write_message(data.username + ' writes: "' + data.message + '"');
+            });
+
+            $formMessage.addEventListener('submit', function (e) {
+                e.preventDefault();
+                ws.emit('message', {
+                    username: 'TOTO',
+                    message: $('#post-content').val()
+                });
+            }, false);
+        });
+        ws.on('error', function(event) { console.log(event); });
+        ws.on('close', function(event) { console.log(event); });
+    }
+    function write_message(message) {
+        console.log(message)
+        //var $message = document.createElement('li');
+        //$message.textContent = message;
+        //$messages.appendChild($message)
+    }
 });

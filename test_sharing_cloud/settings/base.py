@@ -11,6 +11,8 @@ https://docs.djangoproject.com/en/1.10/ref/settings/
 """
 
 import os
+from tornado import web
+import tornado_websockets
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -39,7 +41,8 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'social_django',
-    'microblog'
+    'microblog',
+    'tornado_websockets',
 ]
 
 MIDDLEWARE = [
@@ -129,10 +132,10 @@ USE_TZ = True
 SOCIAL_AUTH_URL_NAMESPACE = 'social'
 
 STATIC_URL = '/static/'
-STATIC_ROOT = os.path.join(BASE_DIR, 'assets')
+STATIC_ROOT = os.path.join(BASE_DIR, '..', 'static')
 
 STATICFILES_DIRS = [
-    os.path.join(BASE_DIR, "static"),
+    os.path.join("microblog", "static"),
 ]
 
 SOCIAL_AUTH_PIPELINE = (
@@ -164,3 +167,13 @@ SOCIAL_AUTH_LOGIN_URL = '/blog/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/blog/'
+
+TORNADO = {
+    'port': 1337,    # 8000 by default
+    'handlers': [
+        (r'%s(.*)' % STATIC_URL, web.StaticFileHandler, {'path': STATIC_ROOT}),
+    ],
+    'settings': {
+        'debug': True,
+    }
+}

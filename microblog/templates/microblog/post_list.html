@@ -3,21 +3,29 @@
 {% block page_title %}Sharing Blog{% endblock %}
 
 {% block page_content %}
-    <h2>Blog Posts</h2>
+    <div>
+        <h2>Blog Posts</h2>
 
-    <ul>
-        {% for post in post_list %}
-        <h3><a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a></h3>
-        <p>{{ post.content }}</p>
-        {% empty %}
-        <li>Sorry, no posts yet. Check back soon!</li>
-        {% endfor %}
-    </ul>
-    <h2>New post</h2>
-    <form method="POST" class="post-form" id="post-form">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit" class="save btn btn-default">Save</button>
-    </form>
+        <ul id="talk">
+            {% for post in post_list %}
+            <h3><a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a></h3>
+            <p>{{ post.content }}</p>
+            <p>{{ post.author.username }}</p>
+                {% if post.author.id == user.id or user.is_superuser %}
+                    <a class="btn btn-default" href="{% url 'microblog:edit' slug=post.slug %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
+                    <a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">Delete<span class="glyphicon glyphicon-pencil"></span></a>
+                {% endif %}
+            {% empty %}
+            <li>Sorry, no posts yet. Check back soon!</li>
+            {% endfor %}
+        </ul>
 
+        <h2>New post</h2>
+        <form method="POST" class="post-form" id="post-form">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <div id="results"></div> 
+            <button type="submit" class="save btn btn-default">Save</button>
+        </form>
+    </div>
 {% endblock %}

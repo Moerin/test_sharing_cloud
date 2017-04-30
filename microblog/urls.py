@@ -9,7 +9,7 @@ from .views import PostDeleteView
 
 urlpatterns = [
     url(r'^$', PostListView.as_view(), name='list'),
-    url(r'^blog/$', PostListView.as_view(), name='list'),
+    # url(r'^blog/$', PostListView.as_view(), name='list'),
     url(r'^login/$', auth_views.login, name='login'),
     url(r'^blog/new/$', PostNewView.as_view(), name='new'),
     url(r'^blog/(?P<slug>[\w-]+)/$', PostDetailView.as_view(), name='detail'),
