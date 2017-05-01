@@ -12,8 +12,7 @@ $(function() {
     });
 
     function create_post() {
-        console.log("create post is working!") // sanity check
-        console.log($('#post-content').val())
+
         $.ajax({
             url : "blog/new/", // the endpoint
             type : "POST", // http method
@@ -90,7 +89,7 @@ $(function() {
         }
     });
 
-    /* --- Eco new message --- */
+    /* --- Echo new message --- */
     var post = $('#post-form');
     function send_messages() {
 
@@ -98,33 +97,25 @@ $(function() {
         options.port = 1337;
         var ws = new TornadoWebSocket('/messages', options);
         ws.on('open', function (event) {
-            ws.emit('connection', {
-                username: 'TOTO'
+            ws.on('new_connection', function(data) {
+                console.log("new_connection : Message received!");
             });
 
-            ws.on('new_connection', function (data) {
-                write_message(data.message);
+            console.log("USERNAME");
+            console.log($('#username').text());
+            ws.emit('new_message', {'message': 'new message created by '+ $('#username').text()});
+
+            ws.on('new_message_created', function(data) {
+                //console.log("new_message_created : Message received!");
+                write_message(data);
             });
 
-            ws.on('new_message', function(data) {
-                write_message(data.username + ' writes: "' + data.message + '"');
-            });
-
-            $formMessage.addEventListener('submit', function (e) {
-                e.preventDefault();
-                ws.emit('message', {
-                    username: 'TOTO',
-                    message: $('#post-content').val()
-                });
-            }, false);
         });
         ws.on('error', function(event) { console.log(event); });
         ws.on('close', function(event) { console.log(event); });
     }
-    function write_message(message) {
-        console.log(message)
-        //var $message = document.createElement('li');
-        //$message.textContent = message;
-        //$messages.appendChild($message)
+    function write_message(data) {
+        console.log(data);
+        alert(data.message);
     }
 });

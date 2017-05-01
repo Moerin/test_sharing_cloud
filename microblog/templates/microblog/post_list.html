@@ -11,10 +11,6 @@
             <h3><a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a></h3>
             <p>{{ post.content }}</p>
             <p>{{ post.author.username }}</p>
-                {% if post.author.id == user.id or user.is_superuser %}
-                    <a class="btn btn-default" href="{% url 'microblog:edit' slug=post.slug %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-                    <a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">Delete<span class="glyphicon glyphicon-pencil"></span></a>
-                {% endif %}
             {% empty %}
             <li>Sorry, no posts yet. Check back soon!</li>
             {% endfor %}

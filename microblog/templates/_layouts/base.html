@@ -5,6 +5,8 @@
         <link rel="stylesheet" href="{% static 'css/bootstrap.min.css' %}">
         <title>{% block page_title %}Sharing Blog{% endblock %}</title>
         {% if user and not user.is_anonymous %}
+        <!--Temporary to get username during websocket process-->
+        <div id="username" style="display: none;" value="{{ user.username }}">{{ user.username }}</div>
         <li>
             <a>Hello {{ user.get_full_name|default:user.username }}!</a>
         </li>
@@ -13,7 +15,7 @@
         </li>
         {% else %}
         <li>
-            <a href="{% url 'social:begin' 'google-oauth2' %}?next=/blog/">Login with Google</a>
+            <a href="{% url 'social:begin' 'google-oauth2' %}?next=/">Login with Google</a>
         </li>
         {% endif %}
     </head>

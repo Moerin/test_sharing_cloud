@@ -55,45 +55,24 @@ class PostDetailView(LoginRequiredMixin, PublishedPostsMixin, DetailView):
 
 class PostNewView(LoginRequiredMixin, CreateView):
     success_url = reverse_lazy("microblog:list")
-    messages = list()
 
     # Websockets purpose
     def __init__(self, **kwargs):
         super(PostNewView, self).__init__(**kwargs)
 
-        print "avant"
-        print tws.context
         tws.context = self
-        print "apres"
-        print tws.context
 
 
     @tws.on
-    def connection(self, socket, data):
-        import ipdb; ipdb.set_trace()  # XXX BREAKPOINT
-
-        # Send an history of the chat
-        [socket.emit('new_message', __) for __ in self.messages]
-        tws.emit('new_connection', '%s just joined the webchat.' % data.get('username', '<Anonymous>'))
+    def open(self, socket, data):
+        # Notify all clients about a new connection
+        tws.emit('new_connection')
 
     @tws.on
-    def message(self, socket, data):
-        message = {
-            'username': data.get('username', '<Anonymous>'),
-            'message': data.get('message', 'Empty message')
-        }
+    def new_message(self, socket, data):
+        # Notify all clients about a new messages
+        tws.emit('new_message_created', data['message'])
 
-        tws.emit('new_message', message)
-        self.messages.append(message)
-
-    @tws.on
-    def clear_history(self, socket, data):
-        """
-            Called when a client wants to clear messages history.
-            Used only for client-side JavaScript unit tests
-        """
-
-        self.messages = []
 
     def post(self, request, *args, **kwargs):
 
