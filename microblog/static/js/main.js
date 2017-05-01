@@ -11,6 +11,16 @@ $(function() {
         send_messages();
     });
 
+    $('#button-delete').click(function(event){
+        event.preventDefault();
+        console.log("event for delete stuff!")  // sanity check
+        // TODO need translation
+        if (confirm('Are you sure?')) {
+            delete_post($(this).val());
+            send_delete();
+        }
+    });
+
     function create_post() {
 
         $.ajax({
@@ -23,7 +33,7 @@ $(function() {
             success : function(json) {
                 $('#post-content').val(''); // remove the value from the input
                 $('#post-title').val(''); // remove the value from the input
-                $("#talk").prepend('<h3><a href="blog/'+json.slug+'/">'+capitalizeFirstLetter(json.title)+'</a></h3><p>'+json.content+'</p><p>'+json.username+'</p>');
+                $("#talk").prepend("<div id='post-"+json.slug+"'><h3><a href='blog/"+json.slug+"/'>"+capitalizeFirstLetter(json.title)+"</a></h3><p>"+json.content+"</p><p>"+json.username+"</p><button id='button-delete' value='"+json.slug+"' class='btn btn-default'>Delete <span class='glyphicon glyphicon-pencil'></span></button></div>");
                 console.log(json); // log the returned json to the console
                 console.log("success"); // another sanity check
             },
@@ -37,6 +47,27 @@ $(function() {
         });
     };
 
+    function delete_post(slug) {
+
+        $.ajax({
+            url : "blog/" + slug + '/delete/', // the endpoint
+            type : "POST", // http method
+
+            // handle a successful response
+            success : function() {
+                $("#post" + slug).remove();
+                console.log("success"); // another sanity check
+            },
+
+            // handle a non-successful response
+            error : function(xhr,errmsg,err) {
+                $('#results').html("<div class='alert-box alert radius' data-alert>Oops! We have encountered an error: "+errmsg+
+                    " <a href='#' class='close'>&times;</a></div>"); // add the error to the dom
+                console.log(xhr.status + ": " + xhr.responseText); // provide a bit more info about the error to the console
+            }
+        });
+    };
+    
     // This function gets cookie with a given name
     function getCookie(name) {
         var cookieValue = null;
@@ -90,10 +121,12 @@ $(function() {
     });
 
     /* --- Echo new message --- */
-    var post = $('#post-form');
+    // TODO optimize. This Websocket is created each time a form is submitted
+    // instead connection need to be initialized once
     function send_messages() {
 
         var options = {};
+        // TODO read from Django settings
         options.port = 1337;
         var ws = new TornadoWebSocket('/messages', options);
         ws.on('open', function (event) {
@@ -101,12 +134,10 @@ $(function() {
                 console.log("new_connection : Message received!");
             });
 
-            console.log("USERNAME");
-            console.log($('#username').text());
             ws.emit('new_message', {'message': 'new message created by '+ $('#username').text()});
 
             ws.on('new_message_created', function(data) {
-                //console.log("new_message_created : Message received!");
+                console.log("new_message_created : Message received!");
                 write_message(data);
             });
 
@@ -114,8 +145,36 @@ $(function() {
         ws.on('error', function(event) { console.log(event); });
         ws.on('close', function(event) { console.log(event); });
     }
+
+    /* --- Echo delete --- */
+    // TODO optimize. This Websocket is created each time a button is submitted
+    // instead connection need to be initialized once
+    function send_delete() {
+
+        var options = {};
+        // TODO read from Django settings
+        options.port = 1337;
+        var ws = new TornadoWebSocket('/deletes', options);
+        ws.on('open', function (event) {
+            ws.on('new_connection', function(data) {
+                console.log("new_connection : Delete received!");
+            });
+
+            ws.emit('delete_action', {'message': 'new delete made by '+ $('#username').text()});
+
+            ws.on('delete_action_made', function(data) {
+                console.log("delete_action_made: Delete received!");
+                write_message(data);
+            });
+
+        });
+        ws.on('error', function(event) { console.log(event); });
+        ws.on('close', function(event) { console.log(event); });
+    }
+
     function write_message(data) {
-        console.log(data);
+        // TODO add timed popup coming from below the web page
+        // TODO need translation
         alert(data.message);
     }
 });

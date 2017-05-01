@@ -23,6 +23,7 @@ class Post(models.Model):
 
     class Meta:
         ordering = ["-created_at", "title"]
+        unique_together = ['author', 'slug']
 
     def __unicode__(self):
         return self.title

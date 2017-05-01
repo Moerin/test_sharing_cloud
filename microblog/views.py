@@ -11,7 +11,13 @@ from django.views.generic.edit import FormMixin
 from .forms import PostForm
 from .models import Post
 
-tws = WebSocket('/messages')
+tws, dws = WebSocket('/messages'), WebSocket('/deletes')
+
+
+class GetUniquePostMixin(object):
+
+    def get_object(self):
+        return Post.objects.get(slug=self.kwargs['slug'], author=self.request.user)
 
 
 class CheckUserOwnerMixin(object):
@@ -49,7 +55,7 @@ class PostListView(LoginRequiredMixin, PublishedPostsMixin, FormMixin, ListView)
     form_class = PostForm
 
 
-class PostDetailView(LoginRequiredMixin, PublishedPostsMixin, DetailView):
+class PostDetailView(LoginRequiredMixin, PublishedPostsMixin, GetUniquePostMixin, DetailView):
     model = Post
 
 
@@ -61,7 +67,6 @@ class PostNewView(LoginRequiredMixin, CreateView):
         super(PostNewView, self).__init__(**kwargs)
 
         tws.context = self
-
 
     @tws.on
     def open(self, socket, data):
@@ -118,7 +123,42 @@ class PostEditView(LoginRequiredMixin, CheckUserOwnerMixin, UpdateView):
         return super(PostEditView, self).form_valid(form)
 
 
-class PostDeleteView(LoginRequiredMixin, CheckUserOwnerMixin, DeleteView):
+class PostDeleteView(LoginRequiredMixin, CheckUserOwnerMixin, GetUniquePostMixin, DeleteView):
     model = Post
     success_url = reverse_lazy('microblog:list')
     template_name_suffix = '_delete'
+
+    # Websockets purpose
+    def __init__(self, **kwargs):
+        super(PostDeleteView, self).__init__(**kwargs)
+
+        dws.context = self
+
+    @dws.on
+    def open(self, socket, data):
+        # Notify all clients about a new connection
+        dws.emit('new_connection')
+
+    @dws.on
+    def delete_action(self, socket, data):
+        # Notify all clients about a new messages
+        dws.emit('delete_action_made', data['message'])
+
+    def post(self, request, *args, **kwargs):
+
+        if self.request.is_ajax():
+            slug = kwargs['slug']
+            response_data = {}
+
+            post = Post.objects.get(slug=slug,
+                                    author=self.request.user)
+            post.delete()
+
+            response_data['result'] = 'Delete post successful!'
+
+            return HttpResponse(
+                json.dumps(response_data),
+                content_type="application/json"
+            )
+
+        return super(DeleteView, self).post(request, *args, **kwargs)

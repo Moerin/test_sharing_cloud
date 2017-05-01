@@ -8,9 +8,21 @@
 
         <ul id="talk">
             {% for post in post_list %}
-            <h3><a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a></h3>
-            <p>{{ post.content }}</p>
-            <p>{{ post.author.username }}</p>
+            <div id="post-{{ post.slug }}">
+                <h3>
+                    {% if post.author.id == user.id or user.is_superuser %}
+                    <a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a>
+                    {% else %}
+                    <a>{{ post.title|capfirst }}</a>
+                    {% endif %}
+                </h3>
+                <p>{{ post.content }}</p>
+                <p>{{ post.author.username }}</p>
+                    {% if post.author.id == user.id or user.is_superuser %}
+                        <!--<a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">Delete<span class="glyphicon glyphicon-pencil"></span></a>-->
+                        <button id="button-delete" value="{{ post.slug }}" class="btn btn-default">Delete <span class="glyphicon glyphicon-pencil"></span></button>
+                    {% endif %}
+            </div>
             {% empty %}
             <li>Sorry, no posts yet. Check back soon!</li>
             {% endfor %}
