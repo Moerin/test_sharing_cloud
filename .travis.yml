@@ -3,7 +3,7 @@ python:
 - 2.7
 cache: pip
 install:
-- pip install -r requirements.txt
+- pip install -r app-config/requirements.txt
 script:
 - python manage.py test --settings=test_sharing_cloud.settings.dev
 after_success:

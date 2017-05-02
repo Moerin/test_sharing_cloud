@@ -5,19 +5,20 @@ from .models import Post
 
 
 class PostForm(forms.ModelForm):
+    """Form to create post """
 
     class Meta:
         model = Post
-        fields = ('title', 'content',)
+        fields = ('title', 'content',)  # visible field
         widgets = {
             'content': forms.Textarea(
                 attrs={'id': 'post-content',
                        'required': True,
                        'placeholder': _('Say something...'),
                        'rows': '3',
-                        'cols': '50',
-                        'maxlength': '140',
-                     }
+                       'cols': '50',
+                       'maxlength': '140',  # constraint for 140 character
+                       }
             ),
             'title': forms.TextInput(
                 attrs={'id': 'post-title',

@@ -10,7 +10,7 @@
         <p>{{ post.updated_at }}</p>
         {% if post.author.id == user.id or user.is_superuser %}
             <a class="btn btn-default" href="{% url 'microblog:edit' slug=post.slug %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
-            <a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">Delete<span class="glyphicon glyphicon-pencil"></span></a>
+            <a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">{% trans "Delete" %}<span class="glyphicon glyphicon-pencil"></span></a>
         {% endif %}
         <p><a href="{% url 'microblog:list' %}">&larr;{% trans "Blog list" %}</a></p>
     </div>

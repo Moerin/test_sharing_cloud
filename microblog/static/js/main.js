@@ -1,9 +1,16 @@
+/*****************************/
+/* Main logic for user event /*
+/*                           /*
+/*****************************/
+
 $(function() {
+
     function capitalizeFirstLetter(string) {
+        // Method wich will capitalize first letter
         return string.charAt(0).toUpperCase() + string.slice(1);
     }
 
-    // Submit post on submit
+    // Create post on submit #post-form id
     $('#post-form').on('submit', function(event){
         event.preventDefault();
         console.log("form submitted!")  // sanity check
@@ -21,6 +28,7 @@ $(function() {
     });
 
     function create_post() {
+        // Ajax method to create Post
 
         $.ajax({
             url : "blog/new/", // the endpoint
@@ -32,6 +40,7 @@ $(function() {
             success : function(json) {
                 $('#post-content').val(''); // remove the value from the input
                 $('#post-title').val(''); // remove the value from the input
+                // Add dynamically new post in the index page
                 $("#talk").prepend("<div id='post-"+json.slug+"'><h3><a href='blog/"+json.slug+"/'>"+capitalizeFirstLetter(json.title)+"</a></h3><p>"+json.content+"</p><p>"+json.username+"</p><button id='button-delete' value='"+json.slug+"' class='btn btn-default'>"+gettext('Delete')+" <span class='glyphicon glyphicon-pencil'></span></button></div>");
                 console.log(json); // log the returned json to the console
                 console.log("success"); // another sanity check
@@ -47,6 +56,7 @@ $(function() {
     };
 
     function delete_post(slug) {
+        // Ajax method to create Post
 
         $.ajax({
             url : "blog/" + slug + '/delete/', // the endpoint
@@ -54,7 +64,7 @@ $(function() {
 
             // handle a successful response
             success : function() {
-                $("#post-" + slug).remove();
+                $("#post-" + slug).remove(); // remove reference of deleted Post in the DOM
                 console.log("success"); // another sanity check
             },
 
@@ -123,6 +133,7 @@ $(function() {
     // TODO optimize. This Websocket is created each time a form is submitted
     // instead connection need to be initialized once
     function send_messages() {
+        // WebSocket subscription to channel messages, to receive and send notification
 
         var options = {};
         // TODO read from Django settings
@@ -150,6 +161,7 @@ $(function() {
     // TODO optimize. This Websocket is created each time a button is submitted
     // instead connection need to be initialized once
     function send_delete() {
+        // WebSocket subscription to channel deletes, to receive and send notification
 
         var options = {};
         // TODO read from Django settings
@@ -175,7 +187,6 @@ $(function() {
 
     function write_message(data) {
         // TODO add timed popup coming from below the web page
-        // TODO need translation
         alert(data.message);
 
     }

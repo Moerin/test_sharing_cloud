@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-02 15:02+0000\n"
+"POT-Creation-Date: 2017-05-02 21:34+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -58,23 +58,36 @@ msgstr ""
 msgid "Blog list"
 msgstr "Blog liste"
 
-#: microblog/templates/microblog/post_list.html:28
+#: microblog/templates/microblog/post_list.html:26
+#, fuzzy
+#| msgid "Delete post"
+msgid "Delete"
+msgstr "Supprimer post"
+
+#: microblog/templates/microblog/post_list.html:30
 msgid "Sorry, no posts yet. Check back soon!"
 msgstr "Desole, pas de post pour le moment. Revenez plus tard"
 
-#: microblog/templates/microblog/post_list.html:32
+#: microblog/templates/microblog/post_list.html:34
 #: microblog/templates/microblog/post_new.html:5
 msgid "New post"
 msgstr "Nouveau post"
 
-#: microblog/templates/microblog/post_list.html:37
+#: microblog/templates/microblog/post_list.html:39
+#: microblog/templates/microblog/post_new.html:10
 msgid "Save"
 msgstr "Envoyer"
 
+#: microblog/templates/registration/login.html:7
+msgid "Please Login"
+msgstr "Connectez vous pour acceder site"
+
 #: test_sharing_cloud/settings/base.py:122
+#: test_sharing_cloud/settings/dev.py:109
 msgid "English"
 msgstr "Anglais"
 
 #: test_sharing_cloud/settings/base.py:123
+#: test_sharing_cloud/settings/dev.py:110
 msgid "French"
 msgstr "Francais"

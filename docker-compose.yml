@@ -1,0 +1,35 @@
+version: "2"
+
+services:
+    django:
+        restart: always
+        build: .
+        expose:
+            - "8888"
+            - "1337"
+        volumes:
+            - .:/home/docker/code
+            - static-data:/home/docker/code/static
+        command: supervisord -n
+        networks:
+            - back
+
+    nginx:
+        restart: always
+        image: nginx:stable-alpine
+        container_name: nginx
+        volumes:
+            - ./nginx:/etc/nginx/conf.d
+            - static-data:/home/docker/code/static
+        ports:
+            - 80:80
+            - 1337:1337
+        networks:
+            - back
+
+networks:
+    back:
+
+volumes:
+  static-data:
+    driver: local

@@ -1,12 +1,13 @@
 from django.contrib import admin
 
 from .models import Post
-from .models import Comment
 
 
 class PostAdmin(admin.ModelAdmin):
+    """ This class is intended to manage
+        Post model via the admin interface
+    """
 
-    # date_hierarchy = "created_at"
     fields = ("published", "title", "slug", "content", "author")
     list_display = ["published", "title", "updated_at", "author"]
     list_display_links = ["title"]
@@ -16,4 +17,3 @@ class PostAdmin(admin.ModelAdmin):
     search_fields = ["title", "content"]
 
 admin.site.register(Post, PostAdmin)
-admin.site.register(Comment)

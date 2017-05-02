@@ -22,7 +22,6 @@
                     <p>{{ post.author.username }}</p>
                     <p>{{ post.created_at|localtime }}</p>
                     {% if post.author.id == user.id or user.is_superuser %}
-                        <!--<a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">Delete<span class="glyphicon glyphicon-pencil"></span></a>-->
                         <button id="button-delete" value="{{ post.slug }}" class="btn btn-default">{% trans "Delete" %}<span class="glyphicon glyphicon-pencil"></span></button>
                     {% endif %}
             </div>

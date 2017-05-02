@@ -1,26 +1,31 @@
 import json
 
-from tornado_websockets.websocket import WebSocket
-
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.core.urlresolvers import reverse, reverse_lazy
 from django.http import HttpResponse, HttpResponseForbidden, HttpResponseNotFound
 from django.views.generic import ListView, DetailView, UpdateView, DeleteView, CreateView
 from django.views.generic.edit import FormMixin
+from tornado_websockets.websocket import WebSocket
 
 from .forms import PostForm
 from .models import Post
 
+
+# Websockets initialization
 tws, dws = WebSocket('/messages'), WebSocket('/deletes')
 
 
 class GetUniquePostMixin(object):
+    """Mixin to get unique model by constraint (slug, author)"""
 
     def get_object(self):
         return Post.objects.get(slug=self.kwargs['slug'], author=self.request.user)
 
 
 class CheckUserOwnerMixin(object):
+    """Mixin to check if action (view) are authorized for the current user.
+       Except for Super User.
+    """
 
     def dispatch(self, request, *args, **kwargs):
         # check for user permission:
@@ -45,27 +50,33 @@ class CheckUserOwnerMixin(object):
 
 
 class PublishedPostsMixin(object):
+    """Mixin which use PostManager to get only published Post"""
 
     def get_queryset(self):
         return self.model.objects.live()
 
 
 class PostListView(LoginRequiredMixin, PublishedPostsMixin, FormMixin, ListView):
+    """View which list all Posts on index page"""
+
     model = Post
     form_class = PostForm
 
 
 class PostDetailView(LoginRequiredMixin, PublishedPostsMixin, GetUniquePostMixin, DetailView):
+    """View which will displayed detail on post, more field, delete and edit actions"""
     model = Post
 
 
 class PostNewView(LoginRequiredMixin, CreateView):
+    """View used to create Post and binded to WebSocket actions"""
+
     success_url = reverse_lazy("microblog:list")
 
-    # Websockets purpose
     def __init__(self, **kwargs):
-        super(PostNewView, self).__init__(**kwargs)
+        """This method is overrided to add view instance to WebSocket context"""
 
+        super(PostNewView, self).__init__(**kwargs)
         tws.context = self
 
     @tws.on
@@ -80,6 +91,9 @@ class PostNewView(LoginRequiredMixin, CreateView):
 
 
     def post(self, request, *args, **kwargs):
+        """Due to WebSocket action we need to parse the json response
+           to populate the rightful fields.
+        """
 
         post_content = self.request.POST.get('content')
         post_title = self.request.POST.get('title')
@@ -90,6 +104,7 @@ class PostNewView(LoginRequiredMixin, CreateView):
                     author=self.request.user)
         post.save()
 
+        # Data for WebSocket
         response_data['result'] = 'Create post successful!'
         response_data['post_id'] = post.id
         response_data['title'] = post.title
@@ -105,6 +120,8 @@ class PostNewView(LoginRequiredMixin, CreateView):
 
 
 class PostEditView(LoginRequiredMixin, CheckUserOwnerMixin, UpdateView):
+    """View which allowed edit on title and content fields"""
+
     model = Post
     template_name = 'microblog/post_new.html'
     form_class = PostForm
@@ -130,8 +147,9 @@ class PostDeleteView(LoginRequiredMixin, CheckUserOwnerMixin, GetUniquePostMixin
 
     # Websockets purpose
     def __init__(self, **kwargs):
-        super(PostDeleteView, self).__init__(**kwargs)
+        """This method is overrided to add view instance to WebSocket context"""
 
+        super(PostDeleteView, self).__init__(**kwargs)
         dws.context = self
 
     @dws.on
@@ -145,6 +163,10 @@ class PostDeleteView(LoginRequiredMixin, CheckUserOwnerMixin, GetUniquePostMixin
         dws.emit('delete_action_made', data['message'])
 
     def post(self, request, *args, **kwargs):
+        """DeleteView is used by Regular form in login_detail and
+           by ajax request.
+           Process workflow need to be identified and managed.
+        """
 
         if self.request.is_ajax():
             slug = kwargs['slug']

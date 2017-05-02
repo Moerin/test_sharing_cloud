@@ -12,32 +12,24 @@
 # See the License for the specific language governing permissions and
 # limitations under the License.
 
-FROM ubuntu:16.04
+FROM python:2-alpine
 
-MAINTAINER Dockerfiles
+MAINTAINER Sebastien
 
 # Install required packages and remove the apt packages cache when done.
-RUN apt-get update && \
-    apt-get upgrade -y && \
-    apt-get install -y \
+RUN apk add --no-cache \
 	git \
-	python \
-	python-dev \
-	python-setuptools \
-	python-pip \
-	nginx \
     supervisor \
-	sqlite3 && \
-	pip install -U pip setuptools && \
-  	rm -rf /var/lib/apt/lists/*
+	sqlite \
+    postgresql-dev \
+    gcc \
+    musl-dev
 
 COPY app-config/requirements.txt /home/docker/code/app/
 RUN pip install -r /home/docker/code/app/requirements.txt
 
 # setup all the configfiles
-RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-COPY app-config/nginx-app.conf /etc/nginx/sites-available/default
-COPY app-config/supervisor-app.conf /etc/supervisor/conf.d/
+COPY app-config/supervisor.ini /etc/supervisor.d/
 
 # add (the rest of) our code
 COPY . /home/docker/code/
@@ -52,5 +44,5 @@ WORKDIR /home/docker/code/
 RUN python manage.py collectstatic --noinput
 
 # For load balancing purpose eg.
-EXPOSE 80
-CMD ["supervisord", "-n"]
+#EXPOSE 8888 1337
+#CMD ["supervisord", "-n"]
