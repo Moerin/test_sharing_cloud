@@ -1,4 +1,5 @@
 {% load staticfiles %}
+{% load i18n %}
 <!doctype html>
 <html>
     <head>
@@ -8,14 +9,14 @@
         <!--Temporary to get username during websocket process-->
         <div id="username" style="display: none;" value="{{ user.username }}">{{ user.username }}</div>
         <li>
-            <a>Hello {{ user.get_full_name|default:user.username }}!</a>
+            <a>{% blocktrans with username=user.get_full_name|default:user.username %}Hello {{ username }}!{% endblocktrans %}</a>
         </li>
         <li>
-            <a href="{% url 'auth:logout' %}?next={{ request.path }}">Logout</a>
+            <a href="{% url 'auth:logout' %}?next={{ request.path }}">{% trans "Logout" %}</a>
         </li>
         {% else %}
         <li>
-            <a href="{% url 'social:begin' 'google-oauth2' %}?next=/">Login with Google</a>
+            <a href="{% url 'social:begin' 'google-oauth2' %}?next=/">{% trans "Login with Google" %}</a>
         </li>
         {% endif %}
     </head>
@@ -27,6 +28,7 @@
         {% endblock %}
         <script type="application/javascript" src="http://ajax.googleapis.com/ajax/libs/jquery/1.11.1/jquery.min.js"></script>
         <script type="application/javascript" src="{% static 'tornado_websockets/tornadowebsocket-es6.js' %}"></script>
+        <script type="text/javascript" src="{% url 'javascript-catalog' %}"></script>
         <script type="application/javascript" src="{% static '/js/main.js' %}"></script>
     </body>
 </html>

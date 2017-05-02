@@ -1,11 +1,15 @@
 # Run this with
 # PYTHONPATH=</path/to/server> DJANGO_SETTINGS_MODULE=mobile.settings </path/to/server/>tornado_server.py
 # Serves by default at
-# http://localhost:8080/hello-tornado
 
-from tornado.options import options, define, parse_command_line
-import django.core.handlers.wsgi
 import logging
+
+import django.core.handlers.wsgi
+
+from tornado.options import define
+from tornado.options import options
+from tornado.options import parse_command_line
+
 import tornado.httpserver
 import tornado.ioloop
 import tornado.web
@@ -15,11 +19,6 @@ define('port', type=int, default=8888)
 parse_command_line()
 
 
-class HelloHandler(tornado.web.RequestHandler):
-    def get(self):
-        self.write('Hello from tornado')
-
-
 def main():
 
     logger = logging.getLogger(__name__)
@@ -27,7 +26,6 @@ def main():
         django.core.handlers.wsgi.WSGIHandler())
     tornado_app = tornado.web.Application(
         [
-            ('/hello-tornado', HelloHandler),
             ('.*', tornado.web.FallbackHandler, dict(fallback=wsgi_app)),
         ], debug=True)
     logger.info("Tornado server starting...")

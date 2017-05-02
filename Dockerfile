@@ -18,7 +18,7 @@ MAINTAINER Dockerfiles
 
 # Install required packages and remove the apt packages cache when done.
 RUN apt-get update && \
-    apt-get upgrade -y && \ 
+    apt-get upgrade -y && \
     apt-get install -y \
 	git \
 	python \
@@ -31,26 +31,26 @@ RUN apt-get update && \
 	pip install -U pip setuptools && \
   	rm -rf /var/lib/apt/lists/*
 
-# install uwsgi now because it takes a little while
-RUN pip install uwsgi
-
-COPY app/requirements.txt /home/docker/code/app/
+COPY app-config/requirements.txt /home/docker/code/app/
 RUN pip install -r /home/docker/code/app/requirements.txt
 
 # setup all the configfiles
 RUN echo "daemon off;" >> /etc/nginx/nginx.conf
-COPY nginx-app.conf /etc/nginx/sites-available/default
-COPY supervisor-app.conf /etc/supervisor/conf.d/
+COPY app-config/nginx-app.conf /etc/nginx/sites-available/default
+COPY app-config/supervisor-app.conf /etc/supervisor/conf.d/
 
 # add (the rest of) our code
 COPY . /home/docker/code/
 
+# Django env settings to dev env, change to base for production but need to add pgsl
 ENV DJANGO_SETTINGS_MODULE=test_sharing_cloud.settings.dev
 
 # Specific to Django
 RUN mkdir -p /var/log/sharing_cloud
+
 WORKDIR /home/docker/code/
 RUN python manage.py collectstatic --noinput
 
+# For load balancing purpose eg.
 EXPOSE 80
 CMD ["supervisord", "-n"]

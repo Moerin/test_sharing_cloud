@@ -1,10 +1,13 @@
 {% extends "_layouts/base.html" %}
+{% load i18n %}
 
 {% block page_content %}
     <div>
-        <h1>Delete post</h1>
+        <h1>{% trans "Delete post" %}</h1>
         <form action="" method="post">{% csrf_token %}
+            {% blocktrans %}
             <p>Are you sure you want to delete "{{ object }}"?</p>
+            {% endblocktrans %}
             <input type="submit" value="Confirm" />
         </form>
     </div>

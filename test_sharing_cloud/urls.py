@@ -16,11 +16,15 @@ Including another URLconf
 from django.conf.urls import url
 from django.conf.urls import include
 from django.contrib import admin
+from django.conf.urls.i18n import i18n_patterns
+
+from django.views.i18n import JavaScriptCatalog
 
 
 urlpatterns = [
     url('', include('microblog.urls', namespace='microblog')),
     url('', include('django.contrib.auth.urls', namespace='auth')),
     url('', include('social_django.urls', namespace='social')),
-    url(r'^admin/', admin.site.urls)
+    url(r'^admin/', admin.site.urls),
+    url(r'^jsi18n/$', JavaScriptCatalog.as_view(), name='javascript-catalog'),
 ]

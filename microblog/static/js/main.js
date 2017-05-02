@@ -14,8 +14,7 @@ $(function() {
 	$('body').on('click', '#button-delete',function(event){
         event.preventDefault();
         console.log("event for delete stuff!")  // sanity check
-        // TODO need translation
-        if (confirm('Are you sure?')) {
+        if (confirm(gettext('Are you sure?'))) {
             delete_post($(this).val());
             send_delete();
         }
@@ -33,7 +32,7 @@ $(function() {
             success : function(json) {
                 $('#post-content').val(''); // remove the value from the input
                 $('#post-title').val(''); // remove the value from the input
-                $("#talk").prepend("<div id='post-"+json.slug+"'><h3><a href='blog/"+json.slug+"/'>"+capitalizeFirstLetter(json.title)+"</a></h3><p>"+json.content+"</p><p>"+json.username+"</p><button id='button-delete' value='"+json.slug+"' class='btn btn-default'>Delete <span class='glyphicon glyphicon-pencil'></span></button></div>");
+                $("#talk").prepend("<div id='post-"+json.slug+"'><h3><a href='blog/"+json.slug+"/'>"+capitalizeFirstLetter(json.title)+"</a></h3><p>"+json.content+"</p><p>"+json.username+"</p><button id='button-delete' value='"+json.slug+"' class='btn btn-default'>"+gettext('Delete')+" <span class='glyphicon glyphicon-pencil'></span></button></div>");
                 console.log(json); // log the returned json to the console
                 console.log("success"); // another sanity check
             },
@@ -134,7 +133,8 @@ $(function() {
                 console.log("new_connection : Message received!");
             });
 
-            ws.emit('new_message', {'message': 'new message created by '+ $('#username').text()});
+            // Message sent to all clients
+            ws.emit('new_message', {'message': gettext('new message created by ')+ $('#username').text()});
 
             ws.on('new_message_created', function(data) {
                 console.log("new_message_created : Message received!");
@@ -160,7 +160,8 @@ $(function() {
                 console.log("new_connection : Delete received!");
             });
 
-            ws.emit('delete_action', {'message': 'new delete made by '+ $('#username').text()});
+            // Message sent to all clients
+            ws.emit('delete_action', {'message': gettext('new delete made by ')+ $('#username').text()});
 
             ws.on('delete_action_made', function(data) {
                 console.log("delete_action_made: Delete received!");
@@ -176,5 +177,6 @@ $(function() {
         // TODO add timed popup coming from below the web page
         // TODO need translation
         alert(data.message);
+
     }
 });

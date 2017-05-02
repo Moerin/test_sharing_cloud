@@ -1,6 +1,7 @@
 {% extends "_layouts/base.html" %}
+{% load i18n %}
 
-{% block page_title %}{{ post.title }} | {% endblock %}
+{% block page_title %}{{ post.title }}{% endblock %}
 
 {% block page_content %}
     <div>
@@ -11,6 +12,6 @@
             <a class="btn btn-default" href="{% url 'microblog:edit' slug=post.slug %}">Edit<span class="glyphicon glyphicon-pencil"></span></a>
             <a class="btn btn-default" href="{% url 'microblog:delete' slug=post.slug %}">Delete<span class="glyphicon glyphicon-pencil"></span></a>
         {% endif %}
-        <p><a href="{% url 'microblog:list' %}">&larr; Blog list</a></p>
+        <p><a href="{% url 'microblog:list' %}">&larr;{% trans "Blog list" %}</a></p>
     </div>
 {% endblock %}

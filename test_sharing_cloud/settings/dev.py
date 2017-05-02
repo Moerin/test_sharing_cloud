@@ -1,8 +1,11 @@
 """ Dev Test settings """
-
+# Due to issue with tornado and app registrery management we need to copy the
+# whole base settings
 import os
 from tornado import web
 import tornado_websockets
+
+from django.utils.translation import ugettext_lazy as _
 
 # Build paths inside the project like this: os.path.join(BASE_DIR, ...)
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
@@ -18,9 +21,7 @@ SECRET_KEY = '7tg%73qg7uh4q*drspael=7gl+m2k$up912u9#y2581kfc5!pk'
 DEBUG = True
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
-
 INSTALLED_APPS = [
     'django.contrib.admin',
     'django.contrib.auth',
@@ -36,6 +37,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
@@ -58,13 +60,13 @@ TEMPLATES = [
                 'django.contrib.messages.context_processors.messages',
                 'social_django.context_processors.backends',
                 'social_django.context_processors.login_redirect',
+                'django.template.context_processors.i18n',
             ],
         },
     },
 ]
 
 WSGI_APPLICATION = 'test_sharing_cloud.wsgi.application'
-
 
 # Database
 # https://docs.djangoproject.com/en/1.10/ref/settings/#databases
@@ -103,8 +105,16 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/1.10/topics/i18n/
+LANGUAGES = (
+    ('en', _('English')),
+    ('fr', _('French')),
+)
 
 LANGUAGE_CODE = 'en-us'
+
+LOCALE_PATHS = (
+    os.path.join(BASE_DIR, '..', 'locale'),
+)
 
 TIME_ZONE = 'UTC'
 
@@ -156,10 +166,8 @@ SOCIAL_AUTH_LOGIN_URL = '/blog/'
 LOGIN_URL = '/login/'
 LOGOUT_URL = '/logout/'
 LOGIN_REDIRECT_URL = '/blog/'
-
 TORNADO = {
     'port': 1337,    # 8000 by default
-    'host': '127.0.0.1',
     'handlers': [
         tornado_websockets.django_app(),
         (r'%s(.*)' % STATIC_URL, web.StaticFileHandler, {'path': STATIC_ROOT})
