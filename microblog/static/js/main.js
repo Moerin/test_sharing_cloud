@@ -11,7 +11,7 @@ $(function() {
         send_messages();
     });
 
-    $('#button-delete').click(function(event){
+	$('body').on('click', '#button-delete',function(event){
         event.preventDefault();
         console.log("event for delete stuff!")  // sanity check
         // TODO need translation
@@ -55,7 +55,7 @@ $(function() {
 
             // handle a successful response
             success : function() {
-                $("#post" + slug).remove();
+                $("#post-" + slug).remove();
                 console.log("success"); // another sanity check
             },
 

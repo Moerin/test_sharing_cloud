@@ -50,6 +50,7 @@ ENV DJANGO_SETTINGS_MODULE=test_sharing_cloud.settings.dev
 # Specific to Django
 RUN mkdir -p /var/log/sharing_cloud
 WORKDIR /home/docker/code/
+RUN python manage.py collectstatic --noinput
 
 EXPOSE 80
 CMD ["supervisord", "-n"]

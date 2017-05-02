@@ -10,8 +10,13 @@ class PostForm(forms.ModelForm):
         fields = ('title', 'content',)
         widgets = {
             'content': forms.Textarea(
-                max_length=100,
-                attrs={'id': 'post-content', 'required': True, 'placeholder': 'Say something...'}
+                attrs={'id': 'post-content',
+                       'required': True,
+                       'placeholder': 'Say something...',
+                       'rows': '3',
+                        'cols': '50',
+                        'maxlength': '140',
+                     }
             ),
             'title': forms.TextInput(
                 attrs={'id': 'post-title', 'required': True, 'placeholder': 'Title of your message'}
