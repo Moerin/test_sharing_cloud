@@ -170,10 +170,10 @@ LOGIN_REDIRECT_URL = '/blog/'
 
 TORNADO = {
     'port': 1337,    # 8000 by default
+    'host': '127.0.0.1',
     'handlers': [
-        (r'%s(.*)' % STATIC_URL, web.StaticFileHandler, {'path': STATIC_ROOT}),
+        tornado_websockets.django_app(),
     ],
     'settings': {
-        'debug': True,
     }
 }
