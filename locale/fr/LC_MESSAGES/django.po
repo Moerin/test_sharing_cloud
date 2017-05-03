@@ -8,7 +8,7 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2017-05-02 21:34+0000\n"
+"POT-Creation-Date: 2017-05-03 08:05+0000\n"
 "PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
 "Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
@@ -18,24 +18,24 @@ msgstr ""
 "Content-Transfer-Encoding: 8bit\n"
 "Plural-Forms: nplurals=2; plural=(n > 1);\n"
 
-#: microblog/forms.py:16
+#: microblog/forms.py:17
 msgid "Say something..."
 msgstr "Ecrivez quelque chose..."
 
-#: microblog/forms.py:25
+#: microblog/forms.py:27
 msgid "Title of your message"
 msgstr "Titre de votre message"
 
-#: microblog/templates/_layouts/base.html:12
+#: microblog/templates/_layouts/base.html:16
 #, python-format
 msgid "Hello %(username)s!"
 msgstr "Salut %(username)s!"
 
-#: microblog/templates/_layouts/base.html:15
+#: microblog/templates/_layouts/base.html:17
 msgid "Logout"
 msgstr "Se deconnecter"
 
-#: microblog/templates/_layouts/base.html:19
+#: microblog/templates/_layouts/base.html:20
 msgid "Login with Google"
 msgstr "Connection via Google"
 
@@ -54,33 +54,34 @@ msgstr ""
 "            <p>Etes vous sure de vouloir supprimer \"%(object)s\"?</p>\n"
 "            "
 
-#: microblog/templates/microblog/post_detail.html:15
-msgid "Blog list"
-msgstr "Blog liste"
-
-#: microblog/templates/microblog/post_list.html:26
+#: microblog/templates/microblog/post_detail.html:13
+#: microblog/templates/microblog/post_list.html:27
 #, fuzzy
 #| msgid "Delete post"
 msgid "Delete"
 msgstr "Supprimer post"
 
-#: microblog/templates/microblog/post_list.html:30
+#: microblog/templates/microblog/post_detail.html:15
+msgid "Blog list"
+msgstr "Blog liste"
+
+#: microblog/templates/microblog/post_list.html:31
 msgid "Sorry, no posts yet. Check back soon!"
 msgstr "Desole, pas de post pour le moment. Revenez plus tard"
 
-#: microblog/templates/microblog/post_list.html:34
+#: microblog/templates/microblog/post_list.html:38
 #: microblog/templates/microblog/post_new.html:5
 msgid "New post"
 msgstr "Nouveau post"
 
-#: microblog/templates/microblog/post_list.html:39
+#: microblog/templates/microblog/post_list.html:45
 #: microblog/templates/microblog/post_new.html:10
 msgid "Save"
 msgstr "Envoyer"
 
 #: microblog/templates/registration/login.html:7
 msgid "Please Login"
-msgstr "Connectez vous pour acceder site"
+msgstr "Connectez vous pour acceder au site"
 
 #: test_sharing_cloud/settings/base.py:122
 #: test_sharing_cloud/settings/dev.py:109

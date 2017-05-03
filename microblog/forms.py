@@ -18,11 +18,13 @@ class PostForm(forms.ModelForm):
                        'rows': '3',
                        'cols': '50',
                        'maxlength': '140',  # constraint for 140 character
+                       'class': 'form-control'
                        }
             ),
             'title': forms.TextInput(
                 attrs={'id': 'post-title',
                        'required': True,
-                       'placeholder': _('Title of your message')}
+                       'placeholder': _('Title of your message'),
+                       'class': 'form-control'}
             ),
         }

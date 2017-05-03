@@ -5,37 +5,47 @@
 {% block page_title %}Sharing Blog{% endblock %}
 
 {% block page_content %}
-    <div>
-        <h2>Blog Posts</h2>
-
-        <ul id="talk">
-            {% for post in post_list %}
-            <div id="post-{{ post.slug }}">
-                <h3>
-                    {% if post.author.id == user.id or user.is_superuser %}
-                    <a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a>
-                    {% else %}
-                    <a>{{ post.title|capfirst }}</a>
-                    {% endif %}
-                </h3>
-                    <p>{{ post.content }}</p>
-                    <p>{{ post.author.username }}</p>
-                    <p>{{ post.created_at|localtime }}</p>
-                    {% if post.author.id == user.id or user.is_superuser %}
-                        <button id="button-delete" value="{{ post.slug }}" class="btn btn-default">{% trans "Delete" %}<span class="glyphicon glyphicon-pencil"></span></button>
-                    {% endif %}
+    <div class="row-marketing">
+        <div class="col-lg-6">
+            <div class="page-header">
+                <h2 style="text-align: center;">Blog Posts</h2>
             </div>
-            {% empty %}
-            <li>{% trans "Sorry, no posts yet. Check back soon!" %}</li>
-            {% endfor %}
-        </ul>
-
-        <h2>{% trans "New post" %}</h2>
-        <form method="POST" class="post-form" id="post-form">
-            {% csrf_token %}
-            {{ form.as_p }}
-            <div id="results"></div>
-            <button type="submit" class="save btn btn-default">{% trans "Save" %}</button>
-        </form>
+            <ul id="talk">
+                {% for post in post_list %}
+                <div id="post-{{ post.slug }}">
+                    <h3>
+                        {% if post.author.id == user.id or user.is_superuser %}
+                        <a href="{{ post.get_absolute_url }}">{{ post.title|capfirst }}</a>
+                        {% else %}
+                        <a>{{ post.title|capfirst }}</a>
+                        {% endif %}
+                    </h3>
+                        <p>{{ post.content }}</p>
+                        <p>{{ post.author.username }}</p>
+                        <p>{{ post.created_at|localtime }}</p>
+                        {% if post.author.id == user.id or user.is_superuser %}
+                            <button id="button-delete" value="{{ post.slug }}" class="btn btn-xs btn-danger">{% trans "Delete" %}<span class="glyphicon glyphicon-pencil"></span></button>
+                        {% endif %}
+                </div>
+                {% empty %}
+                <li>{% trans "Sorry, no posts yet. Check back soon!" %}</li>
+                {% endfor %}
+            </ul>
+        </div>
+        <div class="col-lg-6">
+            <div class="panel panel-default">
+                <div class="panel-heading">
+                <h3 class="panel-title">{% trans "New post" %}</h2>
+                </div>
+                <div class="panel-body">
+                <form method="POST" class="post-form" id="post-form">
+                    {% csrf_token %}
+                    {{ form.as_p }}
+                    <div id="results"></div>
+                    <button type="submit" class="save btn btn-success">{% trans "Save" %}</button>
+                </form>
+                <div>
+            <div>
+        </div>
     </div>
 {% endblock %}
