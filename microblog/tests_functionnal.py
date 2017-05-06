@@ -15,7 +15,7 @@ class LiveServerMixin(object):
     def setUp(self):
         """Selenium configuration warmup"""
 
-        self.browser = webdriver.Chrome()
+        self.browser = webdriver.Firefox()
         self.browser.implicitly_wait(3)
         return super(LiveServerMixin, self).setUp()
 
