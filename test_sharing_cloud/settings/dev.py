@@ -1,6 +1,7 @@
 """ Dev Test settings """
 # Due to issue with tornado and app registrery management we need to copy the
 # whole base settings
+
 import os
 from tornado import web
 import tornado_websockets
