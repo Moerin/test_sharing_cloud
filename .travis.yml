@@ -12,7 +12,7 @@ before_script:
 install:
 - pip install -r app-config/requirements.txt
 script:
-- python manage.py test --settings=test_sharing_cloud.settings.dev
+- test $TRAVIS_BRANCH = "dev" && python manage.py test --settings=test_sharing_cloud.settings.dev
 after_success:
 - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge
 - chmod a+x /tmp/travis-automerge
