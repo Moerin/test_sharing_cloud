@@ -367,3 +367,36 @@
 1493767288295	Marionette	INFO	New connections will no longer be accepted
 [GFX1-]: Receive IPC close with reason=AbnormalShutdown
 [Child 12150] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-SmsXzF/firefox-53.0+build6/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 346
+1494091265039	geckodriver	INFO	Listening on 127.0.0.1:46355
+1494091266200	geckodriver::marionette	INFO	Starting browser /usr/lib/firefox/firefox.sh with args ["-marionette"]
+1494091271161	Marionette	INFO	Listening on port 46151
+1494091271318	Marionette	WARN	TLS certificate errors will be ignored for this session
+1494091273049	Marionette	INFO	New connections will no longer be accepted
+1494091273354	geckodriver	INFO	Listening on 127.0.0.1:47325
+1494091274424	geckodriver::marionette	INFO	Starting browser /usr/lib/firefox/firefox.sh with args ["-marionette"]
+1494091278289	Marionette	INFO	Listening on port 35645
+1494091278396	Marionette	WARN	TLS certificate errors will be ignored for this session
+1494091279713	Marionette	INFO	New connections will no longer be accepted
+[Child 19858] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-SmsXzF/firefox-53.0+build6/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 346
+1494091280253	geckodriver	INFO	Listening on 127.0.0.1:56521
+1494091281421	geckodriver::marionette	INFO	Starting browser /usr/lib/firefox/firefox.sh with args ["-marionette"]
+1494091286096	Marionette	INFO	Listening on port 40017
+1494091286233	Marionette	WARN	TLS certificate errors will be ignored for this session
+1494091287745	Marionette	INFO	New connections will no longer be accepted
+[Child 20162] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-SmsXzF/firefox-53.0+build6/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 346
+1494091314132	geckodriver	INFO	Listening on 127.0.0.1:55275
+1494091315231	geckodriver::marionette	INFO	Starting browser /usr/lib/firefox/firefox.sh with args ["-marionette"]
+1494091320242	Marionette	INFO	Listening on port 46065
+1494091320507	Marionette	WARN	TLS certificate errors will be ignored for this session
+1494091322093	Marionette	INFO	New connections will no longer be accepted
+1494091322378	geckodriver	INFO	Listening on 127.0.0.1:54321
+1494091323531	geckodriver::marionette	INFO	Starting browser /usr/lib/firefox/firefox.sh with args ["-marionette"]
+1494091327439	Marionette	INFO	Listening on port 40345
+1494091327545	Marionette	WARN	TLS certificate errors will be ignored for this session
+1494091329207	Marionette	INFO	New connections will no longer be accepted
+[Child 21765] WARNING: pipe error (3): Connexion ré-initialisée par le correspondant: file /build/firefox-SmsXzF/firefox-53.0+build6/ipc/chromium/src/chrome/common/ipc_channel_posix.cc, line 346
+1494091329711	geckodriver	INFO	Listening on 127.0.0.1:45901
+1494091330801	geckodriver::marionette	INFO	Starting browser /usr/lib/firefox/firefox.sh with args ["-marionette"]
+1494091335705	Marionette	INFO	Listening on port 46095
+1494091335866	Marionette	WARN	TLS certificate errors will be ignored for this session
+1494091337417	Marionette	INFO	New connections will no longer be accepted

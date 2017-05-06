@@ -5,6 +5,7 @@ from django.core.urlresolvers import reverse
 from django.test import TestCase
 from django.utils.translation import activate
 from selenium import webdriver
+from selenium.webdriver.firefox.firefox_binary import FirefoxBinary
 
 from .forms import PostForm
 
@@ -15,7 +16,8 @@ class LiveServerMixin(object):
     def setUp(self):
         """Selenium configuration warmup"""
 
-        self.browser = webdriver.Firefox()
+        binary = FirefoxBinary("/usr/bin/firefox")
+        self.browser = webdriver.Firefox(firefox_binary=binary)
         self.browser.implicitly_wait(3)
         return super(LiveServerMixin, self).setUp()
 
