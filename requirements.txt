@@ -1,0 +1,7 @@
+Django==1.10.3
+djangorestframework==3.5.3
+social-auth-app-django
+psycopg2
+django-tornado-websockets
+selenium
+djangorestframework-oauth
