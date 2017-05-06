@@ -15,7 +15,10 @@ class LiveServerMixin(object):
     def setUp(self):
         """Selenium configuration warmup"""
 
-        self.browser = webdriver.Firefox()
+        caps = webdriver.DesiredCapabilities().FIREFOX
+        caps["marionette"] = False
+
+        self.browser = webdriver.Firefox(capabilities=caps)
         self.browser.implicitly_wait(3)
         return super(LiveServerMixin, self).setUp()
 
