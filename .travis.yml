@@ -3,12 +3,12 @@ python:
     - 2.7
 cache: pip
 before_install:
-    - sudo apt-get -qq update
-    - sudo apt-get install -y firefox
+    - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then sudo apt-get -qq update; fi
+    - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then sudo apt-get install -y firefox; fi
 before_script:
-    - wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz -O /tmp/geckodriver.tar.gz
-    - tar -xvf /tmp/geckodriver.tar.gz
-    - export PATH=$PATH:$PWD/
+    - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then wget https://github.com/mozilla/geckodriver/releases/download/v0.16.1/geckodriver-v0.16.1-linux64.tar.gz -O /tmp/geckodriver.tar.gz; fi
+    - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then tar -xvf /tmp/geckodriver.tar.gz; fi
+    - if [[ "$TRAVIS_BRANCH" == "dev" ]]; thenexport PATH=$PATH:$PWD/; fi
 install:
     - pip install -r app-config/requirements.txt
 script:
