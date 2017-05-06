@@ -12,7 +12,7 @@ before_script:
 install:
 - pip install -r app-config/requirements.txt
 script:
-    if ([ "$TRAVIS_BRANCH" == "dev" ]; then
+- if ([ "$TRAVIS_BRANCH" == "dev" ]; then
         python manage.py test --settings=test_sharing_cloud.settings.dev
         echo "This will test!"
     else
