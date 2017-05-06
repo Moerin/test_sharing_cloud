@@ -12,12 +12,7 @@ before_script:
 install:
     - pip install -r app-config/requirements.txt
 script:
-    - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then
-            python manage.py test --settings=test_sharing_cloud.settings.dev
-            echo "This will test!"
-        else
-            echo "This will not test!"
-        fi
+    - if [[ "$TRAVIS_BRANCH" == "dev" ]]; then python manage.py test --settings=test_sharing_cloud.settings.dev; else echo "This will not test!"; fi
 after_success:
     - curl -o /tmp/travis-automerge https://raw.githubusercontent.com/cdown/travis-automerge/master/travis-automerge
     - chmod a+x /tmp/travis-automerge
